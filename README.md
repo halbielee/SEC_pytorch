@@ -31,7 +31,7 @@ Three novel loss functions are introduced:
 - tensorboardX
 
 
-#####Fully connected CRF wrapper (requires the Eigen3 Package)
+##### Fully connected CRF wrapper (requires the Eigen3 Package)
 ```bash
 apt-get install libeigen3-dev
 
