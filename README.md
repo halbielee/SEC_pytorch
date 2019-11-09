@@ -88,10 +88,10 @@ bash script/evaluation.sh
 
 We evaluate the PyTorch implementation with hyperparms which the author provided without any other tuning. 
 
-| Method | Backbone  |  mIOU | Download                                                     |
-| :----: | --------- | :---: | :----------------------------------------------------------: |
-|    SEC | DeepLab-LargeFOV | 50.6049  | [:arrow_down:](https://drive.google.com/a/yonsei.ac.kr/file/d/1G9c4ZYi4OyZwpZQV8UVrHBRedHk5IA33/view?usp=sharing) |
-|    SEC | DeepLab-LargeFOV | 49.6978  | [:arrow_down:](https://drive.google.com/a/yonsei.ac.kr/file/d/1tFPC7G-rpcCUQ_pcKWqycNbWoOePhwMj/view?usp=sharing) |
+| Method | Dataset | Backbone  |  mIOU | Download                                                     |
+| :----: | --------- | --------- | :---: | :----------------------------------------------------------: |
+|    SEC | VOC2012-val | DeepLab-LargeFOV | 50.6049  | [:arrow_down:](https://drive.google.com/a/yonsei.ac.kr/file/d/1G9c4ZYi4OyZwpZQV8UVrHBRedHk5IA33/view?usp=sharing) |
+|    SEC | VOC2012-val | DeepLab-LargeFOV | 49.6978  | [:arrow_down:](https://drive.google.com/a/yonsei.ac.kr/file/d/1tFPC7G-rpcCUQ_pcKWqycNbWoOePhwMj/view?usp=sharing) |
 
 
 
