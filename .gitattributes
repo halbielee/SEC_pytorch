@@ -1,2 +1,4 @@
 # to change language of repo from Javascript to Python
-*.cpp linguist-language=Python
+*.cpp linguist-vendored
+*.c linguist-vendored
+CRF/ linguist-vendored
