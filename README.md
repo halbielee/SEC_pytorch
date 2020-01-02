@@ -19,6 +19,8 @@ Three novel loss functions are introduced:
 
 
 ## Updates
+02 Jan, 2020: COCO implementation upload
+
 11 Nov, 2019: Initial upload
 
 ## Prerequisites
