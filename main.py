@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
 import torch
-import torch.nn as nn
 import torch.optim
 import network as models
 from tensorboardX import SummaryWriter
@@ -30,6 +29,8 @@ def main():
     # number of classes for each dataset.
     if args.dataset == 'PascalVOC':
         num_classes = 21
+    elif args.dataset == 'COCO':
+        num_classes = 81
     else:
         raise Exception("No dataset named {}.".format(args.dataset))
 
@@ -52,7 +53,6 @@ def main():
         model = load_model(model, args.resume)
 
     train_loader = data_loader(args)
-
     data_iter = iter(train_loader)
     train_t = tqdm(range(args.max_iter))
     model.train()
@@ -63,7 +63,6 @@ def main():
             data_iter = iter(data_loader(args))
             images, target, gt_map = next(data_iter)
 
-
         if args.gpu is not None:
             images = images.cuda(args.gpu)
             gt_map = gt_map.cuda(args.gpu)
@@ -73,7 +72,7 @@ def main():
 
         fc8_SEC_softmax = softmax_layer(output)
         loss_s = seed_loss_layer(fc8_SEC_softmax, gt_map)
-        loss_e = expand_loss_layer(fc8_SEC_softmax, target)
+        loss_e = expand_loss_layer(fc8_SEC_softmax, target, num_classes - 1)
         fc8_SEC_CRF_log = crf_layer(output, images, iternum=10)
         loss_c = constrain_loss_layer(fc8_SEC_softmax, fc8_SEC_CRF_log)
 
@@ -84,22 +83,17 @@ def main():
         optimizer.step()
 
         # writer add_scalars
-        writer.add_scalars(args.name, {'loss_s': loss_s, 'loss_e': loss_e, 'loss_c': loss_c}, global_iter)
+        writer.add_scalar('loss', loss, global_iter)
+        writer.add_scalars('losses', {'loss_s': loss_s, 'loss_e': loss_e, 'loss_c': loss_c}, global_iter)
 
         with torch.no_grad():
             if global_iter % 10 == 0:
                 # writer add_images (origin, output, gt)
-
-                # image_mean_value = [.485, .456, .406]
-                # image_std_value = [.229, .224, .225]
-                # image_mean_value = torch.reshape(torch.tensor(image_mean_value), (1, 3, 1, 1)).cuda(args.gpu)
-                # image_std_value = torch.reshape(torch.tensor(image_std_value), (1, 3, 1, 1)).cuda(args.gpu)
-                # origin = images.clone().detach() * image_std_value + image_mean_value
-                origin = images.clone().detach() + torch.tensor([104., 117., 123.]).reshape(1, 3, 1, 1).cuda(args.gpu)
+                origin = images.clone().detach() + torch.tensor([123., 117., 107.]).reshape(1, 3, 1, 1).cuda(args.gpu)
 
                 size = (100, 100)
                 origin = F.interpolate(origin, size=size)
-                origins = vutils.make_grid(origin, nrow=15, padding=2)
+                origins = vutils.make_grid(origin, nrow=15, padding=2, normalize=True, scale_each=True)
 
                 outputs = F.interpolate(output, size=size)
                 _, outputs = torch.max(outputs, dim=1)

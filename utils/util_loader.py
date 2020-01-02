@@ -1,31 +1,29 @@
 from torch.utils.data import DataLoader
 from .dataset.voc import VOCDataset
+from .dataset.coco import COCODataset
 
-IMAGE_MEAN_VALUE = [104., 117., 123.]
+def data_loader(args):
+    datalist = args.train_list
 
-def data_loader(args, mode='train'):
-    if mode == 'train':
-        datalist = args.train_list
-        shuffle = True
-    elif mode == 'val':
-        datalist = args.val_list
-        shuffle = False
-    elif mode == 'test':
-        datalist = args.test_list
-        shuffle = False
+    if args.dataset == 'PascalVOC':
+        dataset = VOCDataset(
+            root=args.data,
+            gt_root=args.gt_root,
+            datalist=datalist,
+        )
+    elif args.dataset == 'COCO':
+        dataset = COCODataset(
+            root=args.data,
+            gt_root=args.gt_root,
+            datalist=datalist,
+        )
     else:
-        raise Exception("Error: There is no {} mode.".format(mode))
+        raise Exception("No matching dataset.")
 
-    dataset = VOCDataset(
-        root=args.data,
-        gt_root=args.gt_root,
-        datalist=datalist,
-        mode=mode,
-    )
     dataset_loader = DataLoader(
         dataset,
         batch_size=args.batch_size,
-        shuffle=shuffle,
+        shuffle=True,
         num_workers=args.workers
     )
     return dataset_loader

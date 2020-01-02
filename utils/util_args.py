@@ -32,14 +32,22 @@ def get_args():
     parser.add_argument('--dataset', type=str, default='PASCAL', )
     parser.add_argument('--gt-root', type=str, default='datalist/PascalVOC/localization_cues-sal.pickle')
     parser.add_argument('--train-list', type=str, default='datalist/PascalVOC/input_list.txt')
-    parser.add_argument('--val-list', type=str, default='datalist/PascalVOC/val.txt')
-    parser.add_argument('--test-list', type=str, default='datalist/PascalVOC/test.txt')
-    parser.add_argument('--size-list', type=str, default='datalist/PascalVOC/sizes.txt')
 
     # data transform
     parser.add_argument('--resize-size', type=int, default=321, help='input resize size')
     parser.add_argument('--crop-size', type=int, default=321, help='input crop size')
 
+    parser.add_argument('--debug', default=False, action='store_true')
+
     args = parser.parse_args()
+
+    if args.dataset == 'PascalVOC':
+        args.train_list = 'datalist/PascalVOC/input_list.txt'
+
+    elif args.dataset == 'COCO':
+        if args.debug:
+            args.train_list = 'datalist/COCO/input_list_debug.txt'
+        else:
+            args.train_list = 'datalist/COCO/input_list.txt'
 
     return args

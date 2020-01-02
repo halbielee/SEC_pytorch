@@ -23,7 +23,7 @@ def seed_loss_layer(probs, labels):
     return loss_balanced
 
 
-def expand_loss_layer(probs_tmp, stat_inp):
+def expand_loss_layer(probs_tmp, stat_inp, num_classes):
 
     stat = stat_inp[:, :, :, 1:]
 
@@ -33,7 +33,7 @@ def expand_loss_layer(probs_tmp, stat_inp):
     probs_max, _ = torch.max(torch.max(probs, dim=3)[0], dim=2)
 
     q_fg = 0.996
-    probs_sort, _ = torch.sort(probs.contiguous().view(-1, 20, 41 * 41), dim=2)
+    probs_sort, _ = torch.sort(probs.contiguous().view(-1, num_classes, 41 * 41), dim=2)
     weights = probs_sort.new_tensor([q_fg ** i for i in range(41 * 41 -1, -1, -1)])[None, None, :]
     z_fg = torch.sum(weights)
     # weight = ..
