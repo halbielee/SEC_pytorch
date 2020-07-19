@@ -19,7 +19,9 @@ Three novel loss functions are introduced:
 
 
 ## Updates
-02 Jan, 2020: COCO implementation upload
+19 Jul, 2020: upload PascalVOC pretrained model
+
+02 Jan, 2020: upload COCO implementation
 
 11 Nov, 2019: Initial upload
 
@@ -50,7 +52,7 @@ Pascal VOC 2012 dataset (VOC2012) is used for this implementation.
 
 
 We use ImageNet pretrained model which is coverted from Caffe.
-- Download the pretrained model from [here](https://drive.google.com/a/yonsei.ac.kr/file/d/1Fs25jmy9uZJxLlWFfdOESOs5EXnAr0OK/view?usp=sharing)
+- Download the pretrained model from [here](https://drive.google.com/file/d/1tAnc1fDttigaer1UC5rypPGTZUt2GGeK/view?usp=sharing)
 - You can convert it on your own. Please see [here](https://github.com/marvis/pytorch-caffe) for more details.
 
 
